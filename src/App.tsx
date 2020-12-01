@@ -1,25 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
+import { Container } from "semantic-ui-react";
+import { Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import './App.css';
 
+import { HeaderComponent as Header } from "./components/Header";
+import { HomePage } from "./pages/HomePage";
+import { NotePage } from "./pages/NotePage";
+import { getNotes } from "./store/actions/notes";
+import { getTags } from './store/actions/tags';
+// import { getTags } from "./store/actions/tags";
+
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    
+    dispatch(getNotes());
+    dispatch(getTags());
+  }, [dispatch]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <Header />
+      <Route exact path="/" component={HomePage} />
+      <Route path="/note/:id" component={NotePage} />
+    </Container>
   );
 }
 
