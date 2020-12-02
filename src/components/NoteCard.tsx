@@ -22,7 +22,10 @@ export function NoteCard({ note }: { note: Note }) {
     return tag && (
       <Label tag
         key={tag.id}
-        onClick={() => dispatch(toggleTagInFilters(tag.id))}
+        onClick={e => {
+          e.stopPropagation();
+          dispatch(toggleTagInFilters(tag.id))
+        }}
         active={filters.tags.includes(tag.id)}
         content={tag.name}
       />

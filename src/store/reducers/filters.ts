@@ -1,7 +1,5 @@
 import {
   SET_SEARCH_STRING,
-  // ADD_TAG_TO_FILTERS,
-  // REMOVE_TAG_FROM_FILTERS,
   TOGGLE_TAG_IN_FILTERS,
   CLEAR_FILTERS,
 } from "../actions/filters";
@@ -24,13 +22,6 @@ export const filtersReducer = (
   switch (action.type) {
     case SET_SEARCH_STRING:
       return { ...state, search: action.payload };
-    // case ADD_TAG_TO_FILTERS:
-    //   return { ...state, tags: [...state.tags, action.payload] };
-    // case REMOVE_TAG_FROM_FILTERS:
-    //   return {
-    //     ...state,
-    //     tags: state.tags.filter((tagId) => tagId !== action.payload),
-    //   };
     case TOGGLE_TAG_IN_FILTERS:
       return state.tags.includes(action.payload)
         ? {

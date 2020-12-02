@@ -1,19 +1,10 @@
 import { Note } from "./Notes";
 import { Tag } from "./Tags";
 import {
-  NOTES_LOADING,
   NOTES_LOAD_SUCCEED,
-  NOTES_LOAD_FAILED,
-  ADD_NOTE,
   ADD_NOTE_SUCCEED,
-  ADD_NOTE_FAILED,
-  EDIT_NOTE,
   EDIT_NOTE_SUCCEED,
-  EDIT_NOTE_FAILED,
-  DELETE_NOTE_SUCCEED,
-  // EDIT_NOTE,
-  // DELETE_NOTE,
-  // ADD_TAG_TO_NOTE,
+  DELETE_NOTE_SUCCEED
 } from "../actions/notes";
 import {
   TAGS_LOADING,
@@ -33,57 +24,27 @@ import {
 
 //Notes actions
 
-export interface LoadStartNoteAction {
-  type: typeof NOTES_LOADING;
-}
 export interface LoadSucceedNoteAction {
   type: typeof NOTES_LOAD_SUCCEED;
   payload: Note[];
-}
-export interface LoadFailedNoteAction {
-  type: typeof NOTES_LOAD_FAILED;
-  payload: string;
-}
-
-export interface AddNoteAction {
-  type: typeof ADD_NOTE;
 }
 export interface AddNoteSucceedAction {
   type: typeof ADD_NOTE_SUCCEED;
   payload: Note;
 }
-export interface AddNoteFailedAction {
-  type: typeof ADD_NOTE_FAILED;
-  payload: string;
-}
-
-export interface EditNoteAction {
-  type: typeof EDIT_NOTE;
-}
 export interface EditNoteSucceedAction {
   type: typeof EDIT_NOTE_SUCCEED;
   payload: Note;
 }
-export interface EditNoteFailedAction {
-  type: typeof EDIT_NOTE_FAILED;
-  payload: string;
-}
-
 export interface DeleteNoteSucceedAction {
   type: typeof DELETE_NOTE_SUCCEED;
   payload: string;
 }
 
 export type NoteActionTypes =
-  | LoadStartNoteAction
   | LoadSucceedNoteAction
-  | LoadFailedNoteAction
-  | AddNoteAction
   | AddNoteSucceedAction
-  | AddNoteFailedAction
-  | EditNoteAction
   | EditNoteSucceedAction
-  | EditNoteFailedAction
   | DeleteNoteSucceedAction;
 
 //Tags actions

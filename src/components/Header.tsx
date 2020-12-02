@@ -5,7 +5,7 @@ export function HeaderComponent() {
   return (
     <header className="app-header">
       <Header as="h1" textAlign="center">
-        Note organizer
+        Note Organizer
       </Header>
     </header>
   );
