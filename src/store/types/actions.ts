@@ -10,6 +10,7 @@ import {
   EDIT_NOTE,
   EDIT_NOTE_SUCCEED,
   EDIT_NOTE_FAILED,
+  DELETE_NOTE_SUCCEED,
   // EDIT_NOTE,
   // DELETE_NOTE,
   // ADD_TAG_TO_NOTE,
@@ -22,6 +23,13 @@ import {
   ADD_TAG_SUCCEED,
   ADD_TAG_FAILED,
 } from "../actions/tags";
+import {
+  SET_SEARCH_STRING,
+  // ADD_TAG_TO_FILTERS,
+  // REMOVE_TAG_FROM_FILTERS,
+  TOGGLE_TAG_IN_FILTERS,
+  CLEAR_FILTERS,
+} from "../actions/filters";
 
 //Notes actions
 
@@ -61,14 +69,10 @@ export interface EditNoteFailedAction {
   payload: string;
 }
 
-// export interface DeleteNoteAction {
-//   type: typeof DELETE_NOTE;
-//   payload: { id: string };
-// }
-// export interface AddTagToNoteAction {
-//   type: typeof ADD_TAG_TO_NOTE;
-//   payload: { id: string };
-// }
+export interface DeleteNoteSucceedAction {
+  type: typeof DELETE_NOTE_SUCCEED;
+  payload: string;
+}
 
 export type NoteActionTypes =
   | LoadStartNoteAction
@@ -79,7 +83,8 @@ export type NoteActionTypes =
   | AddNoteFailedAction
   | EditNoteAction
   | EditNoteSucceedAction
-  | EditNoteFailedAction;
+  | EditNoteFailedAction
+  | DeleteNoteSucceedAction;
 
 //Tags actions
 
@@ -115,4 +120,31 @@ export type TagActionTypes =
   | AddTagSucceedAction
   | AddTagFailedAction;
 
-export type AppActions = NoteActionTypes | TagActionTypes;
+export interface SetSearchStringAction {
+  type: typeof SET_SEARCH_STRING;
+  payload: string;
+}
+// export interface AddTagToFiltersAction {
+//   type: typeof ADD_TAG_TO_FILTERS;
+//   payload: string;
+// }
+// export interface RemoveTagFromFiltersAction {
+//   type: typeof REMOVE_TAG_FROM_FILTERS;
+//   payload: string;
+// }
+export interface ToggleTagInFiltersAction {
+  type: typeof TOGGLE_TAG_IN_FILTERS;
+  payload: string;
+}
+export interface ClearFiltersAction {
+  type: typeof CLEAR_FILTERS;
+}
+
+export type FiltersActionTypes =
+  | SetSearchStringAction
+  // | AddTagToFiltersAction
+  // | RemoveTagFromFiltersAction
+  | ToggleTagInFiltersAction
+  | ClearFiltersAction;
+
+export type AppActions = NoteActionTypes | TagActionTypes | FiltersActionTypes;

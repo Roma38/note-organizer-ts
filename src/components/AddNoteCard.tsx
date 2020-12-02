@@ -1,22 +1,11 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Card,
-  TextArea,
-  Form,
-  Dropdown,
-  DropdownProps,
-} from "semantic-ui-react";
+import { Button, Card, TextArea, Form, Dropdown } from "semantic-ui-react";
 import { useSelector, useDispatch } from "react-redux";
 import { v4 } from "uuid";
 
 import { postNote } from "../store/actions/notes";
 import { AppState } from "../store";
 import { Tag } from "../store/types/Tags";
-
-// function isFish(pet: Fish | Bird): pet is Fish {
-//   return (pet as Fish).swim !== undefined;
-// }
 
 type Tags = string[];
 
@@ -51,7 +40,7 @@ export function AddNoteCard() {
           />
           <Dropdown
             className="card-input"
-            placeholder="Label"
+            placeholder="Tags"
             fluid
             multiple
             selection

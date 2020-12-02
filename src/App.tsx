@@ -1,30 +1,43 @@
-import React, { useEffect } from 'react';
-import { Container } from "semantic-ui-react";
-import { Route } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Container, Dimmer, Loader } from "semantic-ui-react";
 import { useDispatch } from "react-redux";
 import './App.css';
+import { FAKE_API as axios } from "./fakeAPI";
 
 import { HeaderComponent as Header } from "./components/Header";
-import { HomePage } from "./pages/HomePage";
-import { NotePage } from "./pages/NotePage";
-import { getNotes } from "./store/actions/notes";
+import { HomePage } from "./components/HomePage";
+import { notesLoadSucceed } from "./store/actions/notes";
 import { getTags } from './store/actions/tags';
-// import { getTags } from "./store/actions/tags";
 
 function App() {
   const dispatch = useDispatch();
+  const [isNotesLoading, setIsNotesLoading] = useState(false);
 
   useEffect(() => {
-    
-    dispatch(getNotes());
+    setIsNotesLoading(true);
+    axios.get("notes")
+      .then(({ data }) => {
+        setIsNotesLoading(false);
+        dispatch(notesLoadSucceed(data));
+      })
+      .catch(error => {
+        setIsNotesLoading(false);
+        alert(error);
+      });
     dispatch(getTags());
   }, [dispatch]);
 
   return (
     <Container>
-      <Header />
-      <Route exact path="/" component={HomePage} />
-      <Route path="/note/:id" component={NotePage} />
+      {isNotesLoading ?
+        <Dimmer active>
+          <Loader>Loading</Loader>
+        </Dimmer> :
+        <>
+          <Header />
+          <HomePage/>
+        </>}
+
     </Container>
   );
 }

@@ -10,6 +10,7 @@ import {
   EditNoteAction,
   EditNoteSucceedAction,
   EditNoteFailedAction,
+  DeleteNoteSucceedAction,
   // EditNoteAction,
   // DeleteNoteAction,
   // AddTagToNoteAction,
@@ -30,7 +31,7 @@ export const EDIT_NOTE = "EDIT_NOTE";
 export const EDIT_NOTE_SUCCEED = "EDIT_NOTE_SUCCEED";
 export const EDIT_NOTE_FAILED = "EDIT_NOTE_FAILED";
 
-export const DELETE_NOTE = "DELETE_NOTE";
+export const DELETE_NOTE_SUCCEED = "DELETE_NOTE_SUCCEED";
 export const ADD_TAG_TO_NOTE = "ADD_TAG_TO_NOTE";
 
 // Get Notes
@@ -87,20 +88,12 @@ export const editNoteFailed = (error: string): EditNoteFailedAction => ({
   type: EDIT_NOTE_FAILED,
   payload: error,
 });
-// export const putNote = (payload: Note) => (
-//   dispatch: Dispatch<NoteActionTypes>
-// ) => {
-//   dispatch(editNote());
-//   axios
-//     .put("notes", payload)
-//     .then(() => dispatch(editNoteSucceed(payload)))
-//     .catch((error: string) => dispatch(editNoteFailed(error)));
-// };
 
-// export const editNote = payload => ({
-//   type: EDIT_NOTE,
-//   payload
-// });
+// Delete Note
+export const deleteNoteSucceed = (id: string): DeleteNoteSucceedAction => ({
+  type: DELETE_NOTE_SUCCEED,
+  payload: id,
+});
 
 // export const deleteNote = payload => ({
 //   type: DELETE_NOTE,

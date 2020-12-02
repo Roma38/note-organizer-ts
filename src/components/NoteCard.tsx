@@ -1,62 +1,94 @@
-import React from "react";
-import { Card, Label, Icon } from "semantic-ui-react";
+import React, { useState } from "react";
+import { Card, Label, Icon, Modal } from "semantic-ui-react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { FAKE_API as axios } from "../fakeAPI";
 
-// import { setFilter } from "../store/actions/notesFilter";
 import { Note } from "../store/types/Notes";
 import { Tag } from "../store/types/Tags";
 import { AppState } from "../store";
-// import { deleteNote } from "../store/actions/notes";
+import { editNoteSucceed, deleteNoteSucceed } from "../store/actions/notes";
+import { EditNoteForm } from "./EditNoteForm";
+import { toggleTagInFilters } from "../store/actions/filters";
 
 export function NoteCard({ note }: { note: Note }) {
-  const tags = useSelector((state: AppState) => state.tags);
-  // const filter = useSelector(state => state.filter);
+  const { tags, filters } = useSelector((state: AppState) => state);
+  const [isPinLoading, setIsPinLoading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isModalOpened, setIsModalOpened] = useState(false);
   const dispatch = useDispatch();
 
-  // const { note } = props;
-
-  const renderLabel = (tagId: string) => {
+  const noteTag = (tagId: string) => {
     const tag = tags.find((tag: Tag) => tag.id === tagId);
     return tag && (
-      <Label
-        className="tag-tag"
+      <Label tag
         key={tag.id}
-        as="a"
-        // onClick={() => dispatch(setFilter({ type: "tags", id: tag.id }))}
-        // active={filter.type === "tags" && tag.id === filter.id}
-        // color={note.color}
+        onClick={() => dispatch(toggleTagInFilters(tag.id))}
+        active={filters.tags.includes(tag.id)}
         content={tag.name}
-        tag
       />
     );
   };
 
-  // const deleteHandle = (event, id) => {
-  //   event.preventDefault();
-  //   // eslint-disable-next-line no-restricted-globals
-  //   if (confirm("Are you sure want to delete this card?"))
-  //     dispatch(deleteNote(id));
-  // };
+  const togglePin = () => {
+    setIsPinLoading(true);
+    axios
+      .put("notes", { ...note, isPinned: !note.isPinned })
+      .then(() => {
+        setIsPinLoading(false);
+        dispatch(editNoteSucceed({ ...note, isPinned: !note.isPinned }));
+      })
+      .catch(error => {
+        setIsPinLoading(false);
+        alert(error);
+        console.log(error);
+      });
+  }
 
-  return (
-    <Card fluid className="note-card">
-      <Card.Content
-        // as={Link}
-        // to={"/note/" + note.id}
-        // title="Note details"
-        className="card-content"
-      >
-        <Card.Description textAlign="left">
+  const deleteHandle = () => {
+    // TODO: implement styled confirm window
+    // eslint-disable-next-line no-restricted-globals
+    if (confirm("Are you sure want to delete this note?")) {
+      setIsDeleting(true);
+      axios
+        .delete("notes", note.id)
+        .then(() => {
+          setIsDeleting(false);
+          dispatch(deleteNoteSucceed(note.id));
+        })
+        .catch(error => {
+          setIsDeleting(false);
+          alert(error);
+          console.log(error);
+        });
+    }
+  };
+
+  return <>
+    <Card fluid className="note-card" link onClick={() => setIsModalOpened(true)}>
+      <Card.Content>
+        <Card.Description textAlign="left" className="card-content">
+          <div className="icon-buttons" onClick={e => e.stopPropagation()}>
+            <Icon link
+              name='pin'
+              loading={isPinLoading}
+              color={note.isPinned ? "red" : "grey"}
+              title={note.isPinned ? "Unpin" : "Pin"}
+              onClick={togglePin}
+            />
+            <Modal closeIcon
+              trigger={<Icon name='edit' title="Edit" link />}
+              header='Edit Note'
+              content={<EditNoteForm note={note} />}
+            />
+            <Icon name='delete' title="Delete" link loading={isDeleting} onClick={deleteHandle} />
+          </div>
           {note.content}
-          <Icon link name='pin' color={note.isPinned ? "red" : "grey"} /* onClick={} */ />
         </Card.Description>
       </Card.Content>
       <Card.Content textAlign="center" extra>
-        {note.tags.length > 0 && (
-          <div>{note.tags.map(tagId => renderLabel(tagId))}</div>
-        )}
+        {note.tags.map(tagId => noteTag(tagId))}
       </Card.Content>
     </Card>
-  );
+    <Modal closeIcon open={isModalOpened} content={note.content} onClose={() => setIsModalOpened(false)} />
+  </>
 }

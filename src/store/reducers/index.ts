@@ -2,12 +2,12 @@ import { combineReducers } from "redux";
 
 import { notesReducer } from "./notes";
 import { tagsReducer } from "./tags";
-// import { filterReducer } from "./notesFilter";
+import { filtersReducer } from "./filters";
 
 const rootReduser = combineReducers({
   notes: notesReducer,
   tags: tagsReducer,
-  // filter: filterReducer,
+  filters: filtersReducer,
 });
 
 export default rootReduser;

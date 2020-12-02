@@ -1,0 +1,9 @@
+.icon-buttons {
+  float: right;  
+}
+
+.card-content {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
