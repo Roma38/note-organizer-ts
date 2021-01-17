@@ -17,14 +17,9 @@ export function SideBar() {
   useEffect(() => {
     setIsTagsLoading(true);
     axios.get("tags")
-      .then(({ data }) => {
-        setIsTagsLoading(false);
-        dispatch(tagsLoadSucceed(data));
-      })
-      .catch(error => {
-        setIsTagsLoading(false);
-        alert(error);
-      });
+      .then(({ data }) => dispatch(tagsLoadSucceed(data)))
+      .catch(error => alert(error))
+      .finally(() => setIsTagsLoading(false));
   }, [dispatch]);
 
   return (
@@ -34,11 +29,10 @@ export function SideBar() {
       <Header as="h2" content="Tags" />
       {isTagsLoading ?
         <Placeholder>
-          {[...Array(5)].map((_, index) => <Placeholder.Line key={index}/>)}
+          {[...Array(5)].map((_, index) => <Placeholder.Line key={index} />)}
         </Placeholder> :
         <TagsList />}
-
-      {filters !== initialState && <>
+      {JSON.stringify(filters) !== JSON.stringify(initialState) && <>
         <Divider />
         <Button
           className="remove-filter-button"

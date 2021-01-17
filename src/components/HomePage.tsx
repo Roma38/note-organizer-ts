@@ -12,10 +12,13 @@ import { Filter } from "../store/reducers/filters";
 const filterNotes = (notes: Note[], filters: Filter): Note[] => {
   return notes.filter(note => {
     const isMatchSearch = note.content.includes(filters.search);
+    
     // note match every filter tag
-    const isIncludesTags = filters.tags.every(tag => note.tags.includes(tag));
+    // const isIncludesTags = filters.tags.every(tag => note.tags.includes(tag));
+
     // note match any filter tag
-    // const isIncludesTags = filters.tags.some(tag => note.tags.includes(tag));
+    const isIncludesTags = filters.tags.some(tag => note.tags.includes(tag));
+
     return isMatchSearch && (isIncludesTags || !filters.tags.length)
   })
 }

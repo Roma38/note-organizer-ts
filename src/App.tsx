@@ -7,7 +7,6 @@ import { FAKE_API as axios } from "./fakeAPI";
 import { HeaderComponent as Header } from "./components/Header";
 import { HomePage } from "./components/HomePage";
 import { notesLoadSucceed } from "./store/actions/notes";
-import { getTags } from './store/actions/tags';
 
 function App() {
   const dispatch = useDispatch();
@@ -24,7 +23,6 @@ function App() {
         setIsNotesLoading(false);
         alert(error);
       });
-    dispatch(getTags());
   }, [dispatch]);
 
   return (

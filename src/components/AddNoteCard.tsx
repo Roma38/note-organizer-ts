@@ -18,20 +18,21 @@ export function AddNoteCard() {
   const dispatch = useDispatch();
 
   const submitHandler = () => {
-    
+    const newNote = { id: v4(), content: content, tags: noteTags, isPinned: false }
     setIsLoading(true);
     axios
-      .post("notes", { id: v4(), content: content, tags: noteTags, isPinned: false })
+      .post("notes", newNote)
       .then(() => {
-        setIsLoading(false);
-        dispatch(addNoteSucceed({ id: v4(), content: content, tags: noteTags, isPinned: false }));
+        setContent("");
+        setNoteTags([]);
+        dispatch(addNoteSucceed(newNote));
       })
       .catch((error: string) => {
-        setIsLoading(false);
         alert(error);
-      });
-    setContent("");
-    setNoteTags([]);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });    
   };
 
   return (
