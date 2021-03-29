@@ -17,7 +17,7 @@ function App() {
     axios.get("notes")
       .then(({ data }) => {
         setIsNotesLoading(false);
-        dispatch(notesLoadSucceed(data));
+        dispatch(notesLoadSucceed(data || []));
       })
       .catch(error => {
         setIsNotesLoading(false);
