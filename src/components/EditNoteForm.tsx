@@ -18,7 +18,7 @@ export function EditNoteForm({ note }: { note: Note }) {
   const submitHandler = () => {
     setIsLoading(true);
     axios
-      .put("notes", { ...note, isPinned: !note.isPinned })
+      .put("notes", { ...note, tags: noteTags })
       .then(() => {
         setIsLoading(false);
         dispatch(editNoteSucceed({ ...note, content, tags: noteTags }));
